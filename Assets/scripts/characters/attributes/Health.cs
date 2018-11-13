@@ -12,7 +12,7 @@ namespace keke
             }
         }
 
-        public void harm(int amount)
+        public void Harm(int amount)
         {
             if(current > 0)
             {
@@ -26,7 +26,7 @@ namespace keke
 
         }
 
-        public void heal(int amount)
+        public void Heal(int amount)
         {
             if(current < max)
             {

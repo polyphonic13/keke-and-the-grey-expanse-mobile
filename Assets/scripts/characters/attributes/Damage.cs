@@ -6,7 +6,7 @@ namespace keke
 
         public void Trigger(Health target)
         {
-            target.harm(strength);
+            target.Harm(strength);
         }
     }
 }
