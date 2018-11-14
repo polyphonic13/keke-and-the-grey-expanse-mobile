@@ -1,6 +1,6 @@
 namespace keke
 {
-    public class Health
+    public class Health: CoreObject
     {
         public int current;
 

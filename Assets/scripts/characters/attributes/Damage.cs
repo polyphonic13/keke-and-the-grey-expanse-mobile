@@ -1,6 +1,6 @@
 namespace keke
 {
-    public class Damage
+    public class Damage: CoreObject
     {
         public int strength;
 

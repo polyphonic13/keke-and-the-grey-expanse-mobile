@@ -4,6 +4,8 @@
     using System.Collections.Generic;
     using UnityEngine;
 
+    [RequireComponent(typeof(Health))]
+    [RequireComponent(typeof(Damage))]
     public class Player2d : MonoBehaviour
     {
         [SerializeField] private string idleAnimation;
@@ -27,12 +29,16 @@
         private Rigidbody2D m_Rigidbody2D;
         private bool m_FacingRight = true;  // For determining which way the player is currently facing.
 
+        private Health health;
+        private Damage damage;
         private void Awake()
         {
             // Setting up references.
             m_GroundCheck = transform.Find("ground-check");
             m_CeilingCheck = transform.Find("ceiling-check");
             m_Rigidbody2D = GetComponent<Rigidbody2D>();
+            health = GetComponent<Health>();
+            damage = GetComponent<Damage>();
         }
 
 
