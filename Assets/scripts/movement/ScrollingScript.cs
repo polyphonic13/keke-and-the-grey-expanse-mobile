@@ -7,6 +7,8 @@ using UnityEngine;
 /// </summary>
 public class ScrollingScript : MonoBehaviour
 {
+    public Vector2 velocity = new Vector2(0, 0);
+
     /// <summary>
     /// Scrolling speed
     /// </summary>
@@ -66,10 +68,17 @@ public class ScrollingScript : MonoBehaviour
     void Update()
     {
         // Movement
+        // Vector3 movement = new Vector3(
+        //   velocity.x * speed.x * direction.x,
+        //   velocity.y * speed.y * direction.y,
+        //   0
+        // );
+
         Vector3 movement = new Vector3(
           speed.x * direction.x,
           speed.y * direction.y,
-          0);
+          0
+        );
 
         movement *= Time.deltaTime;
         transform.Translate(movement);
@@ -108,7 +117,11 @@ public class ScrollingScript : MonoBehaviour
                         // Set the position of the recyled one to be AFTER
                         // the last child.
                         // Note: Only work for horizontal scrolling currently.
-                        firstChild.transform.position = new Vector3(lastPosition.x + lastSize.x, firstChild.transform.position.y, firstChild.transform.position.z);
+                        firstChild.transform.position = new Vector3(
+                            lastPosition.x + lastSize.x,
+                            firstChild.transform.position.y,
+                            firstChild.transform.position.z
+                        );
 
                         // Set the recycled child to the last position
                         // of the backgroundPart list.
