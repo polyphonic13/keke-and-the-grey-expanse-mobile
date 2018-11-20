@@ -5,6 +5,6 @@ namespace keke
 
     public class Game: Singleton<Game>
     {
-
+        public Vector2 playerVelocity = new Vector2(0, 0);
     }    
 }

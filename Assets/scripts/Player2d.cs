@@ -29,6 +29,7 @@
         private Rigidbody2D m_Rigidbody2D;
         private bool m_FacingRight = true;  // For determining which way the player is currently facing.
 
+        private Game gameInstance;
         private Health health;
         private Damage damage;
         private void Awake()
@@ -37,6 +38,8 @@
             m_GroundCheck = transform.Find("ground-check");
             m_CeilingCheck = transform.Find("ceiling-check");
             m_Rigidbody2D = GetComponent<Rigidbody2D>();
+            gameInstance = Game.Instance;
+
             health = GetComponent<Health>();
             damage = GetComponent<Damage>();
         }
@@ -58,6 +61,7 @@
 
             // Set the vertical animation
             m_Anim.SetFloat("vSpeed", m_Rigidbody2D.velocity.y);
+            gameInstance.playerVelocity.y = m_Rigidbody2D.velocity.y;
         }
 
 
@@ -87,7 +91,7 @@
 
                 // Move the character
                 m_Rigidbody2D.velocity = new Vector2(move*m_MaxSpeed, m_Rigidbody2D.velocity.y);
-
+                gameInstance.playerVelocity.x = m_Rigidbody2D.velocity.x;
                 // If the input is moving the player right and the player is facing left...
                 if (move > 0 && !m_FacingRight)
                 {
