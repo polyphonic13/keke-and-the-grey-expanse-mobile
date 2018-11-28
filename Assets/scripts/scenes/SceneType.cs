@@ -1,6 +1,7 @@
 namespace keke {
     public enum SceneType {
-        UI,
-        PLAYER
+        MAIN,
+        PLAYER,
+        UI
     }
 }
