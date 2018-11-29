@@ -3,6 +3,7 @@ namespace keke
     using System;
     using UnityEngine;
 
+    [RequireComponent(typeof(SceneController))]
     public class Game: Singleton<Game>
     {
         public GameData data;
@@ -10,12 +11,15 @@ namespace keke
 
         private SceneController.OnSceneChanged _sceneChangeCallback;
 
-        void Awake()
+        public override void Init()
         {
+            Debug.Log("Game/Init");
+            base.Init();
             this._sceneChangeCallback = _onSceneChanged;
         }
 
-        private void _onSceneChanged() {
+        private void _onSceneChanged() 
+        {
             Debug.Log("Game/_onSceneChanged");
         }
     }    
