@@ -22,9 +22,11 @@ namespace keke
 			return currentScene.name;
 		}
 
-		public bool GetIsPlayerScene ()
+		public bool IsPlayerScene
 		{
-			return (currentSceneAgent.type == SceneType.PLAYER) ? true : false;
+			get {
+				return (currentSceneAgent.type == SceneType.PLAYER) ? true : false;
+			}
 		}
 
 		public void InitScene ()
