@@ -61,7 +61,7 @@ namespace keke
 			
 		}
 
-		protected IEnumerator _changeSceneAsync (string scene, OnSceneChanged callback = null)
+		protected IEnumerator changeSceneAsync (string scene, OnSceneChanged callback = null)
 		{
 			Scene oldScene = SceneManager.GetActiveScene ();
 			Scene newScene = SceneManager.GetSceneByName (scene);
