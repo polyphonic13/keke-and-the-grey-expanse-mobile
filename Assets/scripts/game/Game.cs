@@ -6,8 +6,8 @@ namespace keke
     public class Game: Singleton<Game>
     {
         public GameData data;
-        public Vector2 playerVelocity = new Vector2(0, 0);
-
+        public Vector2 playerMovement = new Vector2(0, 0);
+        public bool isPlayerMoving = false;
         private SceneController sceneController;
 
         private SceneController.OnSceneChanged sceneChangeCallback;

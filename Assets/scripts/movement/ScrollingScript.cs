@@ -50,15 +50,16 @@ namespace keke
 
         void Update()
         {
-            if(isActive) {
-                            Vector3 movement = new Vector3(
-            gameInstance.playerVelocity.x * speed.x * direction.x,
-            gameInstance.playerVelocity.y * speed.y * direction.y,
-            0
-            );
+            if(isActive && gameInstance.isPlayerMoving) {
+                Vector3 movement = new Vector3(
+                    gameInstance.playerMovement.x * speed.x * direction.x,
+                    gameInstance.playerMovement.y * speed.y * direction.y,
+                    0
+                );
 
-            movement *= Time.deltaTime;
-            transform.Translate(movement);
+                movement *= Time.deltaTime;
+                transform.Translate(movement);
+            
 
         //     // Move the camera
         //     if (isLinkedToCamera)
