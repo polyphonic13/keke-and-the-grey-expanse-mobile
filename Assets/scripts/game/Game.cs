@@ -3,26 +3,42 @@ namespace keke
     using System;
     using UnityEngine;
 
+    [RequireComponent(typeof(SceneController))]
+    [RequireComponent(typeof(PlayerManager))]
     public class Game: Singleton<Game>
     {
+        public string firstScene = "";
         public GameData data;
-        public Vector2 playerMovement = new Vector2(0, 0);
+
+        [HideInInspector]
+        public Vector2 playerMovement = new Vector2(0,0);
+        
+        [HideInInspector]
         public bool isPlayerMoving = false;
         private SceneController sceneController;
+        private PlayerManager playerManager;
 
         private SceneController.OnSceneChanged sceneChangeCallback;
 
+
         public override void Init()
         {
-            Debug.Log("Game/Init");
+            Debug.Log("Game/Init, firstScene = " + firstScene);
             base.Init();
-            this.sceneController = new SceneController();
-            this.sceneChangeCallback = onSceneChanged;
+            sceneController = gameObject.GetComponent<SceneController>();
+            sceneChangeCallback = onSceneChanged;
+            playerManager = PlayerManager.Instance;
+
+            if(firstScene != "")
+            {
+                ChangeScene(firstScene);
+            }
         }
 
-        public void ChangeScene(string scene)
+        public void ChangeScene(string sceneName)
         {
-            sceneController.AddScene(scene, sceneChangeCallback);
+            Debug.Log("Game/ChangeScene, sceneName = " + sceneName);
+            sceneController.ChangeSceneAsync(sceneName, sceneChangeCallback);
         }
 
         private void onSceneChanged() 
@@ -30,11 +46,11 @@ namespace keke
             Debug.Log("Game/onSceneChanged");
             if(this.sceneController.IsPlayerScene) 
             {
-
+                playerManager.InitPlayerScene();
             }
-            else
+            else if(playerManager.isPlayerActive)
             {
-                
+                playerManager.DestroyPlayerScene();
             }
         }
 

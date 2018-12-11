@@ -21,5 +21,10 @@ namespace keke
 				// }        
 			// }
         }
+
+		private void Awake()
+		{
+			Debug.Log("SceneAgent[ " + this.name + " ]/Awake");
+		}
    }
 }

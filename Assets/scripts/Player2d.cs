@@ -73,7 +73,7 @@
             } else {
                 gameInstance.isPlayerMoving = false;
             }
-            Debug.Log("isPlayerMoving = " + gameInstance.isPlayerMoving);
+            // Debug.Log("isPlayerMoving = " + gameInstance.isPlayerMoving);
             previousPosition = new Vector2(transform.position.x, transform.position.y);
         }
 

@@ -5,13 +5,14 @@ namespace keke
 	using UnityEngine;
 	using UnityEngine.SceneManagement;
 
-	public class SceneController
+	public class SceneController: CoreObject
 	{
 		public delegate void OnSceneChanged ();
+		protected Scene activeScene;
+		protected SceneAgent activeSceneAgent;
+		protected SceneType activeSceneType;
 
-		protected Scene currentScene;
-		protected SceneAgent currentSceneAgent;
-		protected SceneType currentSceneType;
+		private IEnumerator coroutine;
 
 		public SceneController ()
 		{
@@ -19,61 +20,67 @@ namespace keke
 
 		public string GetSceneName ()
 		{
-			return currentScene.name;
+			return activeScene.name;
 		}
 
 		public bool IsPlayerScene
 		{
 			get {
-				return (currentSceneAgent.type == SceneType.PLAYER) ? true : false;
+				return (activeSceneAgent.type == SceneType.PLAYER) ? true : false;
 			}
 		}
 
 		public void InitScene ()
 		{
 			Debug.Log ("SceneController/InitScene");
-			currentScene = SceneManager.GetActiveScene();
-			currentSceneAgent = GameObject.Find ("scene").GetComponent<SceneAgent> ();
-			currentSceneAgent.Init ();
+			activeScene = SceneManager.GetActiveScene();
+			GameObject sceneGameObject = GameObject.Find("scene");
+			Debug.Log("scene go = " + sceneGameObject);
+			activeSceneAgent = sceneGameObject.GetComponent<SceneAgent> ();
+			activeSceneAgent.Init ();
 		}
 
-		public void SwitchScene (string scene, OnSceneChanged callback = null)
+		public void SwitchScene (string sceneName, OnSceneChanged callback = null)
 		{
-			ChangeScene (scene, LoadSceneMode.Single, callback);
+			ChangeScene (sceneName, LoadSceneMode.Single, callback);
 		}
 
-		public void AddScene (string scene, OnSceneChanged callback = null)
+		public void AddScene (string sceneName, OnSceneChanged callback = null)
 		{
-			ChangeScene (scene, LoadSceneMode.Additive, callback);
+			ChangeScene (sceneName, LoadSceneMode.Additive, callback);
 		}
 
-		public void ChangeScene (string scene, LoadSceneMode mode, OnSceneChanged callback = null)
+		public void ChangeScene (string sceneName, LoadSceneMode mode, OnSceneChanged callback = null)
 		{
-			SceneManager.LoadScene (scene, mode);
-
+			Debug.Log("SceneController/ChangeScene, sceneName = " + sceneName + ", mode = " + mode);
+			SceneManager.LoadScene (sceneName, mode);
+			InitScene();
 			if (callback != null) {
 				callback ();
 			}
 		}
 
-		public void ChangeSceneAsync (string scene, OnSceneChanged callback = null)
+		public void ChangeSceneAsync (string sceneName, OnSceneChanged callback = null)
 		{
-			
+			Debug.Log("SceneController/ChangeSceneAsync, sceneName = " + sceneName);
+			coroutine = changeSceneAsync(sceneName, callback);
+			StartCoroutine(coroutine);
 		}
 
-		protected IEnumerator changeSceneAsync (string scene, OnSceneChanged callback = null)
+		protected IEnumerator changeSceneAsync (string sceneName, OnSceneChanged callback = null)
 		{
+			Debug.Log(" changeSceneAsync, sceneName = " + sceneName);
 			Scene oldScene = SceneManager.GetActiveScene ();
-			Scene newScene = SceneManager.GetSceneByName (scene);
+			Scene newScene = SceneManager.GetSceneByName (sceneName);
 
-			Camera camera = Camera.main;
-			camera.tag = "Untagged";
+			// Camera camera = Camera.main;
+			// camera.tag = "Untagged";
 
-			AsyncOperation asyncOperation = SceneManager.LoadSceneAsync (scene, LoadSceneMode.Additive);
+			AsyncOperation asyncOperation = SceneManager.LoadSceneAsync (sceneName, LoadSceneMode.Additive);
 
 			while (!asyncOperation.isDone) {
 				if (asyncOperation.progress >= 0.9f) {
-					camera.gameObject.SetActive (false);
+					// camera.gameObject.SetActive (false);
 
 					GameObject.FindObjectOfType<AudioListener> ().enabled = false;
 
@@ -84,8 +91,11 @@ namespace keke
 
 				yield return null;
 			}
+			Debug.Log(" newScene = " + newScene);
+			// SceneManager.SetActiveScene (newScene);
+			SceneManager.SetActiveScene(SceneManager.GetSceneByName(sceneName));
 
-			SceneManager.SetActiveScene (newScene);
+			InitScene();
 
 			if (callback != null) {
 				callback ();

@@ -4,6 +4,6 @@ namespace keke
 
     public class CoreObject: MonoBehaviour 
     {
-        public bool isActive;
+        public bool isActive = true;
     }
 }
