@@ -49,9 +49,23 @@
             damage = GetComponent<Damage>();
         }
 
+        private void OnCollisionEnter2D(Collision2D collision)
+        {
+            if(collision.collider.gameObject.name == "platform") {
+                Debug.Log("collided, collision = " + collision.collider.gameObject.name + ", relativeVelocity = " + collision.relativeVelocity);
+                // Vector2 currentVelocity = m_Rigidbody2D.velocity;
+                // currentVelocity.x += collision.relativeVelocity.x;
+                // m_Rigidbody2D.velocity = new Vector2(currentVelocity.x, currentVelocity.y);
+                // m_Rigidbody2D.velocity.x += collision.relativeVelocity.x;
+                if(collision.relativeVelocity.x != 0) {
+                    gameInstance.isPlayerMoving = false;
+                }
+            }
+        }
 
         private void FixedUpdate()
         {
+            // Debug.Log("velocity = " + m_Rigidbody2D.velocity.x + " / " + m_Rigidbody2D.velocity.y);
             m_Grounded = false;
 
             // The player is grounded if a circlecast to the groundcheck position hits anything designated as ground
@@ -73,7 +87,7 @@
             } else {
                 gameInstance.isPlayerMoving = false;
             }
-            // Debug.Log("isPlayerMoving = " + gameInstance.isPlayerMoving);
+            Debug.Log("isPlayerMoving = " + gameInstance.isPlayerMoving + " position.x = " + transform.position.x + ", previous = " + previousPosition.x);
             previousPosition = new Vector2(transform.position.x, transform.position.y);
         }
 
