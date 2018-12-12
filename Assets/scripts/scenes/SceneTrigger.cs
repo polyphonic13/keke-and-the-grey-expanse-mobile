@@ -5,8 +5,8 @@
 
 	public class SceneTrigger: CoreObject
 	{
-		public string target;
-		public void Execute()
+		public static string target;
+		public static void Execute()
 		{
 			Game.Instance.ChangeScene(target);
 		}
